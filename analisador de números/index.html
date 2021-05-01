@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sua idade</title>
+    <title>Analisador de Números</title>
     <link rel="stylesheet" href="style.css">
     
 </head>
@@ -24,7 +24,7 @@
               
             </select>
             <br>
-            <input type="button" value="Finalizar" id="final">
+            <input type="button" value="Finalizar" id="final" onclick="final()">
 
 
         </div>
@@ -67,12 +67,26 @@
       return false
     }
   }
+
+
+  /*Função do botão Adicionar-----------------------------------------*/
      function adiciona() {
 
       //Usa as duas funções criadas acima e continua se as duas forem true:
       if(isNumero(numero) && !isLista(numero, colection)){
-       numero = Number(numero.value)
+      colection.push(Number(numero.value))
        
+      /*usa uma variável pra criar e armazenar um elemento novo, no caso, um option*/
+      let item = document.createElement('option')
+      
+      /*item usa o .text para armazenar uma string no elemento option*/
+      item.text = `Valor ${numero.value} adicionado!`
+      
+      /*define item como um elemento filho da select exibicao*/
+      exibicao.appendChild(item)
+      
+      /*garante que se for adicionado um número no select a div de resultado apaga:*/
+      res.innerHTML = ''
        
       }
       else{
@@ -80,9 +94,46 @@
 
       }
 
-    
+      /*Método que deixa o foco do cursor no campo de texto*/
+      numero.value = ''
+      numero.focus()
 
-     }
+    }
+
+    function final(){
+      let soma=0 
+      
+      /*Se não tiver adicionado nenhum valor e clicar em finalizar:*/
+      if(colection.length == 0){
+        window.alert("Adicione valores primeiro!")
+      }else{
+        
+      
+        /*Mostra a quantidade de elementos em colection. (.length)*/
+      res.innerHTML += `<p>Ao todo, temos ${colection.length} números cadastrados</p>`
+      
+      /*Mostra o maior número. (.Math.max.apply)*/
+      res.innerHTML += `<p>O maior número informado foi o ${Math.max.apply(null, colection)}</p>`
+
+      /*Mostra o menor número, mesmo método de cima*/
+      res.innerHTML += `<p>O menor número informado foi ${Math.min.apply(null, colection)}</p>`
+
+      /*Laço que faz a soma total de todos os valores*/
+      for(let i=0; i < colection.length; i++){
+        
+        soma += colection[i]
+      }
+      /*Exibe a soma*/
+      res.innerHTML += `<p>A soma de todos os valores é ${soma} </p>`
+
+        /*Exibe a média, soma dividido pela quantidade de elementos*/
+      res.innerHTML += `<p>A média dos valores é ${soma/colection.length}</p>`
+
+      
+      
+      }
+
+    }
      
      
 
